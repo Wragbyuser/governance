@@ -1,0 +1,23 @@
+{
+    "displayName": "Allow Empty Resource Groups",
+    "description": "Allows empty resource groups with no tags to be created.",
+    "mode": "Indexed",
+    "parameters": {},
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "tags",
+                    "exists": "false"
+                },
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Resources/resourceGroups"
+                }
+            ]
+        },
+        "then": {
+            "effect": "allow"
+        }
+    }
+}

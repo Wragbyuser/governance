@@ -1,0 +1,51 @@
+{
+    "properties": {
+        "displayName": "Monthly Spending Budget",
+        "category": "Cost Management",
+        "description": "This policy sets a monthly spending budget for the subscription.",
+        "mode": "All",
+        "parameters": {
+            "monthlyBudgetAmount": {
+                "type": "Number",
+                "metadata": {
+                    "description": "The maximum amount of spending allowed for the month (in USD)."
+                },
+                "defaultValue": 1000
+            },
+            "notificationEmails": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The email addresses to send budget notifications to."
+                },
+                "defaultValue": [
+                    "user1@example.com",
+                    "user2@example.com"
+                ]
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Consumption/budgets"
+            },
+            "then": {
+                "effect": "audit",
+                "details": {
+                    "type": "Microsoft.Consumption/budgets",
+                    "name": "SpendingBudget",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Consumption/budgets/amount",
+                                "greaterOrEquals": "[parameters('monthlyBudgetAmount')]"
+                            }
+                        ]
+                    },
+                    "additionalProperties": {
+                        "notificationEmails": "[parameters('notificationEmails')]"
+                    }
+                }
+            }
+        }
+    }
+}

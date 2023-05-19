@@ -1,0 +1,32 @@
+{
+    "mode": "Indexed",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                },
+                {
+                    "field": "location",
+                    "equals": "westeurope"
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny",
+            "details": {
+                "type": "Microsoft.Compute/virtualMachines",
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/count",
+                            "greater": 10
+                        }
+                    ]
+                },
+                "message": "The maximum number of virtual machines allowed in the West Europe region is 10."
+            }
+        }
+    }
+}

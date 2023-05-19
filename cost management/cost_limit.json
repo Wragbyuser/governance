@@ -1,0 +1,64 @@
+{
+    "displayName": "Add a cost limit resources",
+    "policyType": "BuiltIn",
+    "description": "Adds the specified cost limit to resources. Existing resources can be remediated by triggering a remediation task.",
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "location",
+            "in": [
+              "East US",
+              "East US 2",
+              "Central US"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "audit",
+        "details": {
+          "type": "Microsoft.Insights/metri‌​cs",
+          "name": "Usage",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/metrics",
+                "equals": "Microsoft.Compute/virtualMachines"
+              },
+              {
+                "field": "Microsoft.Insights/metrics",
+                "equals": "Microsoft.Compute/virtualMachinesUsage"
+              }
+            ]
+          },
+          "additionalProperties": {
+            "metricName": "Cost",
+            "operator": "GreaterThan",
+            "threshold": 500
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "audit",
+          "deny",
+          "disabled"
+        ],
+        "defaultValue": "audit"
+      }
+    }
+  }
+  

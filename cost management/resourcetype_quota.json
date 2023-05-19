@@ -1,0 +1,41 @@
+{
+    "properties": {
+        "displayName": "Storage Account Quota",
+        "description": "This policy sets a quota on the number of storage accounts that can be created in the subscription.",
+        "mode": "All",
+        "parameters": {
+            "maxStorageAccounts": {
+                "type": "Integer",
+                "metadata": {
+                    "description": "The maximum number of storage accounts that can be created in the subscription."
+                },
+                "defaultValue": 5
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny",
+                "details": {
+                    "type": "Microsoft.Storage/storageAccounts",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Storage/storageAccounts/count",
+                                "greater": "[parameters('maxStorageAccounts')]"
+                            }
+                        ]
+                    },
+                    "message": "The maximum number of storage accounts allowed in this subscription is [parameters('maxStorageAccounts')]."
+                }
+            }
+        }
+    }
+}

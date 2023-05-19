@@ -1,0 +1,38 @@
+{
+    "properties": {
+        "displayName": "Resource Group Lock",
+        "description": "This policy applies a CanNotDelete lock to a specific resource group to prevent accidental deletion.",
+        "mode": "All",
+        "parameters": {
+            "resourceGroupName": {
+                "type": "String",
+                "metadata": {
+                    "description": "The name of the resource group to lock."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Authorization/locks"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.Authorization/locks/lockType",
+                            "equals": "CanNotDelete"
+                        }
+                    },
+                    {
+                        "field": "Microsoft.Authorization/locks/notes",
+                        "notEquals": "This lock is set by a policy."
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+        }
+    }
