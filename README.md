@@ -1,0 +1,2 @@
+# governance
+Ecowas governance policy
