@@ -1,0 +1,26 @@
+{
+    "mode": "All",
+    "description": "Audit Orphaned resouces across subscriptions and resource groups",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "notIn": [
+          "Microsoft.Resources/subscriptions",
+          "Microsoft.Resources/resourceGroups"
+        ]
+      },
+      "then": {
+        "effect": "audit",
+        "details": {
+          "type": "Microsoft.Resources/linkedDeployments",
+          "existenceCondition": {
+            "field": "Microsoft.Resources/linkedDeployments[*].name",
+            "notIn": "[resourceGroup().resources[*].name]"
+          },
+          "message": "The resource is orphaned and not associated with any resource group."
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,33 @@
+{
+    "mode": "All",
+    "description": "The condition checks if the httpsOnly property of the App Service is not set to true or does not exist",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Web/sites"
+            ]
+          },
+          {
+            "field": "Microsoft.Web/sites/properties/httpsOnly",
+            "notEquals": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny",
+        "details": {
+          "type": "Microsoft.Web/sites",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/properties/httpsOnly",
+            "exists": false
+          },
+          "message": "The App Service should only be accessible via HTTPS."
+        }
+      }
+    }
+  }
+  

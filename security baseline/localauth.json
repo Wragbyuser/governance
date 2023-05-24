@@ -1,0 +1,25 @@
+{
+    "mode": "All",
+    "description": "enforce the disabling of local authentication for all endpoints in App Service slots",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.Web/sites/slots"
+        ]
+      },
+      "then": {
+        "effect": "deny",
+        "details": {
+          "type": "Microsoft.Web/sites/slots",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/slots[*].properties.siteAuthSettings.properties.unauthenticatedClientAction",
+            "notEquals": "RedirectToLoginPage"
+          },
+          "message": "Local authentication is not disabled for all endpoints in the App Service slot."
+        }
+      }
+    }
+  }
+  

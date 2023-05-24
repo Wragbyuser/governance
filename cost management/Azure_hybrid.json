@@ -1,0 +1,25 @@
+{
+    "mode": "All",
+    "description": "Enforce Azure Hybrid Benefit on Azure Windows VM",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.Compute/virtualMachines"
+        ]
+      },
+      "then": {
+        "effect": "deny",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachines",
+          "existenceCondition": {
+            "field": "Microsoft.Compute/virtualMachines[*].properties.licenseType",
+            "notIn": ["Windows_Server"]
+          },
+          "message": "Azure Hybrid Benefit is not enabled for Windows Server virtual machines."
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,24 @@
+{
+    "mode": "All",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.Web/sites/slots"
+        ]
+      },
+      "then": {
+        "effect": "audit",
+        "details": {
+          "type": "Microsoft.Web/sites/slots",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/slots[*].properties.publicNetworkAccess",
+            "equals": "Enabled"
+          },
+          "message": "The App Service slot has public network access enabled."
+        }
+      }
+    }
+  }
+  

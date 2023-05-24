@@ -1,0 +1,24 @@
+{
+    "mode": "All",
+    "description": "Disable public access to Azure Key Vault",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.KeyVault/vaults"
+        ]
+      },
+      "then": {
+        "effect": "deny",
+        "details": {
+          "type": "Microsoft.KeyVault/vaults",
+          "existenceCondition": {
+            "field": "Microsoft.KeyVault/vaults.properties.enableRbacAuthorization",
+            "equals": false
+          },
+          "message": "Public access is not disabled for Azure Key Vault."
+        }
+      }
+    }
+  }  

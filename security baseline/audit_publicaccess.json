@@ -1,0 +1,23 @@
+{
+    "mode": "All",
+    "description": "Audit public access to resources",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "exists": "true"
+      },
+      "then": {
+        "effect": "audit",
+        "details": {
+          "type": "Microsoft.Network/networkInterfaces",
+          "existenceCondition": {
+            "field": "Microsoft.Network/networkInterfaces[*].properties.ipConfigurations[*].properties.publicIPAddress.id",
+            "exists": "true"
+          },
+          "message": "The resource has public network access."
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,24 @@
+{
+    "mode": "All",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.Web/sites/slots"
+        ]
+      },
+      "then": {
+        "effect": "deny",
+        "details": {
+          "type": "Microsoft.Web/sites/slots",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/slots[*].properties.clientCertEnabled",
+            "notEquals": true
+          },
+          "message": "Client certificate (incoming client certificate) is not enabled for the App Service app slot."
+        }
+      }
+    }
+  }
+  

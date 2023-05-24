@@ -1,0 +1,27 @@
+{
+    "mode": "All",
+    "description": "Enforce naming convention",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Storage/storageAccounts"
+        ]
+      },
+      "then": {
+        "effect": "deny",
+        "details": {
+          "type": "Microsoft.Resources/validateAtMost",
+          "existenceCondition": {
+            "field": "name",
+            "like": "[parameters('namingConvention')]"
+          },
+          "message": "The resource name does not follow the specified naming convention."
+        }
+      }
+    }
+  }
+  
